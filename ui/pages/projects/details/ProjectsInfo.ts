@@ -6,7 +6,7 @@ export const projectsInfo = [
         srcs: ["/images/portfolio-screenshot.png", "/images/portfolio-screenshot2.png", "/images/portfolio-screenshot3.png"],
         date: "2026",
         cards: ["Com o meu novo portfólio, pretendo mostrar melhor minhas habilidades e projetos. Pretendo também incluir mais detalhes sobre minha jornada profissional e as tecnologias que domino conforme avanço em minha carreira profissional.", "Com a criação do meu novo portfólio, decidi utilizar uma ferramenta totalmente nova, o TailWind CSS. Estou utilizando essa tecnologia para criar um design moderno e responsivo e de fácil manuntenção. Apesar de nunca ter utilizado essa tecnologia, não enfrentei dificuldades.", "Desenvolvi e estou desenvolvendo habilidades de design, criando um layout moderno e atraente. Também estou aprimorando minhas habilidades em Next.js com Tailwind CSS, explorando suas funcionalidades para otimizar o desempenho e a experiência do usuário."],
-        github: "https://github.com/lukasdesousa/LoveVerse"
+        github: "https://github.com/lukasdesousa/portfolio-2026"
     },
    {
         title: "loveVerse",
