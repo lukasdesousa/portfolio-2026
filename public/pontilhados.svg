@@ -1,0 +1,33 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="fade" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="black" stop-opacity="0.8"></stop>
+      <stop offset="70%" stop-color="black" stop-opacity="0.4"></stop>
+      <stop offset="100%" stop-color="black" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+
+  <g transform="translate(200,200)">
+    <!-- Pontilhado -->
+    <script type="application/ecmascript">
+      const svg = document.currentScript.parentNode;
+      const size = 180;
+      const spacing = 6;
+
+      for (let x = -size; x &lt;= size; x += spacing) {
+        for (let y = -size; y &lt;= size; y += spacing) {
+          const dist = Math.sqrt(x*x + y*y);
+          if (dist &lt; size) {
+            const radius = (1 - dist/size) * 2.5;
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", x);
+            circle.setAttribute("cy", y);
+            circle.setAttribute("r", radius);
+            circle.setAttribute("fill", "black");
+            svg.appendChild(circle);
+          }
+        }
+      }
+    </script>
+  </g>
+</svg>
