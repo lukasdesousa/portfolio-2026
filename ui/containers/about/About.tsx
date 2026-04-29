@@ -11,7 +11,7 @@ export default function About() {
                     <section className="flex flex-col">
                         <section className="flex flex-col lg:flex-row items-start gap-5 ">
                         <Image
-                        src={'/images/Typescript.png'}
+                        src={'/images/typescript.png'}
                         alt="TypeScript"
                         width={100}
                         height={100}
