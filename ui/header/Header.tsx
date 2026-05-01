@@ -4,6 +4,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { message } from "antd";
 
 export default function Header() {
     const [open, setOpen] = useState(false);
@@ -69,6 +70,27 @@ export default function Header() {
                                     LinkedIn
                                 </h1>
                             </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="https://wa.me/5588997063343"
+                                target="_blank"
+                            >
+                                <h1 className="hover:text-green-600 transition hover:cursor-pointer text-gray-600 text-2xl font-bold">
+                                    WhatsApp
+                                </h1>
+                            </Link>
+                        </li>
+                        <li>
+                            <h1
+                                onClick={() => {
+                                    navigator.clipboard.writeText("s.lukas.dev@gmail.com");
+                                    message.success("E-mail copiado para a área de transferência!");
+                                }}
+                                className="hover:text-red-700 transition hover:cursor-pointer text-gray-600 text-2xl font-bold"
+                            >
+                                E-mail
+                            </h1>
                         </li>
                     </ul>
                 </div>

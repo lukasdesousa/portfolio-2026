@@ -42,25 +42,18 @@ export default function Home() {
                     Ver Projetos
                   </button>
                 </Link>
-
-                <button className="px-6 py-3 border border-black rounded-xl hover:text-black hover:scale-105 transition hover:cursor-pointer">
-                  Contato
-                </button>
               </div>
             </section>
 
             {/* IMAGE */}
             <section className="relative z-10">
               <div className="relative">
-                {/* Glow atrás da imagem */}
                 <div className="absolute inset-0 bg-purple-500/20 blur-2xl rounded-full"></div>
-
                 <Picture />
               </div>
             </section>
           </section>
 
-          {/* ABOUT */}
           <section className="px-6 lg:px-30 py-20">
             <About />
           </section>
