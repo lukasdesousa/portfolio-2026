@@ -43,7 +43,6 @@ export default function Header() {
                 closable={false}
                 onClose={() => setOpen(false)}
                 open={open}
-
             >
                 <h1 className="text-center pb-5 text-gray-600 text-2xl font-bold">
                     Outros
