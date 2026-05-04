@@ -87,7 +87,7 @@ export default function Card({ title, description, stackSrc, src, date }: Props)
 
                 {/* BUTTON */}
                 <Link
-                    href={`/projects/${title.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={`/projects/${title.toLowerCase().replace(/\s+/g, '')}`}
                 >
                     <Button
                         type="default"
