@@ -30,7 +30,6 @@ export default function About() {
                         </div>
                     </div>
                 </section>
-
                 <section className="flex flex-col lg:self-end ">
                     <div className="flex flex-col lg:flex-row items-start gap-5">
                         <Image src="/images/nextjs.png" alt="Next.js" width={100} height={100} />
