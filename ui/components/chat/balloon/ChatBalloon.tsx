@@ -27,7 +27,7 @@ export default function ChatBalloon({ response, mode }: { response?: string, mod
     }, [text])
 
     return (
-        <section className="flex items-end gap-2 pr-10">
+        <section className="flex items-end gap-2 pr-0">
             {mode === 'ai' && (
                 <Image
                     src="/images/profile.png"

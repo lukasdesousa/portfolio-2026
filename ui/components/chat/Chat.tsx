@@ -132,19 +132,23 @@ const Chat = () => {
       <section className='fixed right-0 bottom-0 m-10 z-50'>
 
         <Space>
-            <MessageOutlined className='text-4xl' onClick={showDrawer}/>
+          <MessageOutlined className='text-4xl' onClick={showDrawer} />
         </Space>
 
         <Drawer
           title='Chat'
           placement={placement}
-          closable={false}
+          closable={true}
           onClose={onClose}
           open={open}
           key={placement}
+          styles={{
+            body: {
+              padding: 8,
+            }
+          }}
         >
 
-          {/* tela inicial */}
           {messages.length === 0 && (
 
             <section className='absolute inset-0 flex flex-col items-center justify-center px-8 text-center pointer-events-none'>
@@ -175,8 +179,8 @@ const Chat = () => {
                   <section
                     key={message.id}
                     className={`flex ${message.sender === 'user'
-                        ? 'justify-end'
-                        : 'justify-start'
+                      ? 'justify-end'
+                      : 'justify-start'
                       }`}
                   >
 
@@ -229,7 +233,7 @@ const Chat = () => {
             </section>
 
             {/* input */}
-            <section className='flex gap-2 mt-4'>
+            <section className='flex gap-2 mt-4 p-2'>
 
               <Input.TextArea
                 value={message}
@@ -266,6 +270,8 @@ const Chat = () => {
               </Button>
 
             </section>
+
+            <p className='text-center mt-3 max-w-md text-sm leading-6 text-zinc-500'>Essa IA pode cometer erros, ignore-os.</p>
 
           </section>
 
