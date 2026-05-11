@@ -6,6 +6,7 @@ import Header from "@/ui/header/Header";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Chat from "@/ui/components/chat/Chat";
 
 export default function Home() {
 
@@ -91,6 +92,10 @@ export default function Home() {
 
           <section className="px-6 lg:px-30 py-20">
             <About />
+          </section>
+
+          <section>
+            <Chat />
           </section>
 
         </main>
