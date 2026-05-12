@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
         body: JSON.stringify({
 
-          model: 'openrouter/auto',
+          model: 'inclusionai/ring-2.6-1t:free',
 
           messages,
 
