@@ -1,94 +1,90 @@
 import { NextResponse } from 'next/server'
-import { SYSTEM_PROMPT } from '../../extra/prompt'
+import { SYSTEM_PROMPT } from '../../prompt/prompt'
+
+type OpenRouterMessage = {
+  role: 'system' | 'user' | 'assistant'
+  content: string
+}
 
 export async function POST(req: Request) {
 
-    console.log('Recebendo mensagem do frontend...')
+  try {
 
-    try {
+    const { history = [] } = await req.json()
 
-        const { message } = await req.json()
+    const limitedHistory = history.slice(-12)
 
-        if (!message) {
-            return NextResponse.json(
-                {
-                    error: 'Mensagem obrigatória'
-                },
-                {
-                    status: 400
-                }
-            )
-        }
+    const messages: OpenRouterMessage[] = [
+      {
+        role: 'system',
+        content: SYSTEM_PROMPT
+      },
 
-        const response = await fetch(
-            'https://openrouter.ai/api/v1/chat/completions',
-            {
-                method: 'POST',
+      ...limitedHistory
+    ]
 
-                headers: {
-                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                    'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        method: 'POST',
 
-                    // opcionais
-                    'HTTP-Referer': 'http://localhost:3000',
-                    'X-Title': 'Portfolio Lukas'
-                },
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'Content-Type': 'application/json',
 
-                body: JSON.stringify({
+          'HTTP-Referer': 'http://localhost:3000',
+          'X-Title': 'Portfolio Lukas'
+        },
 
-                    // modelo gratuito
-                    model: 'openrouter/auto',
+        body: JSON.stringify({
 
-                    messages: [
-                        {
-                            role: 'system',
-                            content: SYSTEM_PROMPT
-                        },
+          model: 'openrouter/auto',
 
-                        {
-                            role: 'user',
-                            content: message
-                        }
-                    ],
+          messages,
 
-                    temperature: 0.7,
-                    max_tokens: 300
+          temperature: 0.7,
 
-                })
-            }
-        )
+          max_tokens: 300,
 
-        if (!response.ok) {
-
-            const error = await response.text()
-
-            return NextResponse.json(
-                {
-                    error
-                },
-                {
-                    status: response.status
-                }
-            )
-        }
-
-        const data = await response.json()
-
-        return NextResponse.json({
-            response:
-                data?.choices?.[0]?.message?.content ||
-                'Sem resposta da IA.'
+          top_p: 0.9
         })
+      }
+    )
 
-    } catch (error) {
+    if (!response.ok) {
 
-        return NextResponse.json(
-            {
-                error: error instanceof Error ? error.message : 'Erro desconhecido',
-            },
-            {
-                status: 500
-            }
-        )
+      const error = await response.text()
+
+      return NextResponse.json(
+        {
+          error
+        },
+        {
+          status: response.status
+        }
+      )
     }
+
+    const data = await response.json()
+
+    return NextResponse.json({
+      response:
+        data?.choices?.[0]?.message?.content ||
+        'Sem resposta da IA.'
+    })
+
+  } catch (error) {
+
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Erro desconhecido'
+      },
+      {
+        status: 500
+      }
+    )
+  }
 }

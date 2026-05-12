@@ -46,28 +46,35 @@ const Chat = () => {
 
     const currentMessage = message
 
-    // mensagem usuário
     const userMessage: Message = {
       id: Date.now(),
       sender: 'user',
       text: currentMessage
     }
 
-    // adiciona mensagem
-    setMessages((prev) => [
-      ...prev,
+    // histórico atualizado imediatamente
+    const updatedMessages = [
+      ...messages,
       userMessage
-    ])
+    ]
 
-    // limpa input
+    setMessages(updatedMessages)
+
     setMessage('')
 
-    // loading
     setLoading(true)
 
     try {
 
-      // chamada API
+      // transforma histórico pro formato OpenAI/OpenRouter
+      const formattedHistory = updatedMessages.map((msg) => ({
+        role: msg.sender === 'user'
+          ? 'user'
+          : 'assistant',
+
+        content: msg.text
+      }))
+
       const response = await fetch('/api/bot', {
         method: 'POST',
 
@@ -76,13 +83,12 @@ const Chat = () => {
         },
 
         body: JSON.stringify({
-          message: currentMessage
+          history: formattedHistory
         })
       })
 
       const data = await response.json()
 
-      // mensagem IA
       const aiMessage: Message = {
         id: Date.now() + 1,
         sender: 'ai',
@@ -91,14 +97,12 @@ const Chat = () => {
           'Não consegui responder agora.'
       }
 
-      // adiciona resposta
       setMessages((prev) => [
         ...prev,
         aiMessage
-      ].slice(-10))
+      ].slice(-20))
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch {
 
       const errorMessage: Message = {
         id: Date.now() + 1,
