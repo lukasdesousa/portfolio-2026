@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
           temperature: 0.7,
 
-          max_tokens: 300,
+          max_tokens: 1000,
 
           top_p: 0.9
         })

@@ -21,7 +21,7 @@ export default function ChatBalloon({ response, mode }: { response?: string, mod
             if (index >= text.length) {
                 clearInterval(interval)
             }
-        }, 35) // velocidade da digitação
+        }, 25) // velocidade da digitação
 
         return () => clearInterval(interval)
     }, [text])
