@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import type { DrawerProps } from 'antd'
-import { Button, Drawer, Input, Space } from 'antd'
+import { Button, Drawer, Input, Space, Tag } from 'antd'
 import ChatBalloon from './balloon/ChatBalloon'
 import { MessageOutlined } from '@ant-design/icons'
 
@@ -12,7 +12,7 @@ type Message = {
   text: string
 }
 
-const Chat = () => {
+const Chat = ({ projectMode, projectTitle, showChat, setShowChat }: { projectMode: boolean, projectTitle?: string, showChat?: boolean, setShowChat?: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
   const [open, setOpen] = useState(false)
 
@@ -35,8 +35,12 @@ const Chat = () => {
     setOpen(true)
   }
 
-  const onClose = () => {
+  const onClose = (projectMode: boolean) => {
     setOpen(false)
+
+    if (projectMode && setShowChat) {
+      setShowChat(false)
+    }
   }
 
   // ENVIA MENSAGEM
@@ -83,7 +87,8 @@ const Chat = () => {
         },
 
         body: JSON.stringify({
-          history: formattedHistory
+          history: formattedHistory,
+          projectTitle: projectMode ? projectTitle : undefined
         })
       })
 
@@ -134,17 +139,18 @@ const Chat = () => {
   return (
     <>
       <section className='fixed right-0 bottom-0 m-10 z-50'>
-
-        <Space>
-          <MessageOutlined className='text-4xl' onClick={showDrawer} />
-        </Space>
+        {!projectMode && (
+          <Space>
+            <MessageOutlined className='text-4xl' onClick={showDrawer} />
+          </Space>
+        )}
 
         <Drawer
           title='Chat'
           placement={placement}
           closable={true}
-          onClose={onClose}
-          open={open}
+          onClose={() => onClose(projectMode)}
+          open={showChat || open}
           key={placement}
           styles={{
             body: {
@@ -156,16 +162,39 @@ const Chat = () => {
           {messages.length === 0 && (
 
             <section className='absolute inset-0 flex flex-col items-center justify-center px-8 text-center pointer-events-none'>
+              {projectMode && projectTitle ? (
+                 <div>
+                   <Tag
+                                  color="pink"
+                                  className="
+                                                  w-fit rounded-full px-3 py-1 text-xs font-medium
+                                                  border-0 bg-purple-100 text-purple-700
+                                                  
+                                              "
+                              >
+                                  MODO PROJETO
+                              </Tag>
+                                   <h1 className='text-3xl font-semibold text-zinc-800 tracking-tight capitalize my-3'>
+                    {projectTitle === 'mundocripto' ? 'Mundo Cripto' : projectTitle}
+                                   </h1>
+                 </div>
+              ) : (
+                <h1 className='text-3xl font-semibold text-zinc-800 tracking-tight'>
+                  Qual o papo de hoje?
+                </h1>
+              )}
 
-              <h1 className='text-3xl font-semibold text-zinc-800 tracking-tight'>
-                Qual o papo de hoje?
-              </h1>
-
-              <p className='mt-3 max-w-md text-sm leading-6 text-zinc-500'>
-                Você pode perguntar sobre meus projetos,
-                experiências, tecnologias, objetivos de
-                carreira ou qualquer outra coisa.
-              </p>
+              {projectMode ? (
+                <p className='mt-3 max-w-md text-sm leading-6 text-zinc-500'>
+                  A IA agora só responderá perguntas relacionadas a esse projeto. Pergunte sobre as tecnologias usadas, desafios enfrentados e diferenciais.
+                </p>
+              ) : (
+                <p className='mt-3 max-w-md text-sm leading-6 text-zinc-500'>
+                  Você pode perguntar sobre meus projetos,
+                  experiências, tecnologias, objetivos de
+                  carreira ou qualquer outra coisa.
+                </p>
+              )}
 
             </section>
 
