@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
-import { SYSTEM_PROMPT } from '../../prompt/prompt'
+import { NextResponse } from 'next/server';
+import { SYSTEM_PROMPT } from '../../prompt/prompt';
+import { LOVEVERSE_PROMPT, PORTFOLIO_PROMPT, MUNDOCRIPTO_PROMPT, PRODFIND_PROMPT } from '../../prompt/project/projectPrompts';
 
 type OpenRouterMessage = {
   role: 'system' | 'user' | 'assistant'
@@ -7,17 +8,36 @@ type OpenRouterMessage = {
 }
 
 export async function POST(req: Request) {
+  let prompt;
 
   try {
 
-    const { history = [] } = await req.json()
+    const { history = [], projectTitle } = await req.json()
+
+    switch (projectTitle) {
+      case 'loveverse':
+        prompt = LOVEVERSE_PROMPT;
+        break;
+      case 'portfolio':
+        prompt = PORTFOLIO_PROMPT;
+        break;
+      case 'mundocripto':
+        prompt = MUNDOCRIPTO_PROMPT;
+        break;
+      case 'prodfind':
+        prompt = PRODFIND_PROMPT;
+        break;
+      default:
+        prompt = SYSTEM_PROMPT;
+        break;
+    }
 
     const limitedHistory = history.slice(-12)
 
     const messages: OpenRouterMessage[] = [
       {
         role: 'system',
-        content: SYSTEM_PROMPT
+        content: prompt || SYSTEM_PROMPT
       },
 
       ...limitedHistory

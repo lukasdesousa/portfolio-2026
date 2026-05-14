@@ -3,13 +3,15 @@
 import Image from "next/image";
 import Header from "@/ui/header/Header";
 import { projectsInfo } from "./ProjectsInfo";
-import { Tag } from "antd";
+import { Button, Tag } from "antd";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Chat from "@/ui/components/chat/Chat";
 
 export default function ProjectsDetails({ projectName }: { projectName: string }) {
     const router = useRouter();
+    const [openChat, setOpenChat] = useState(false);
 
     const projectInfo = projectsInfo.find((project) => project.title.toLowerCase() === projectName.toLowerCase()) || { title: "", description: "", main_image: "", srcs: [], stackSrc: [], date: "", link: "", cards: [], github: "" };
 
@@ -17,7 +19,7 @@ export default function ProjectsDetails({ projectName }: { projectName: string }
         if (projectInfo.title === "") {
             router.push('/projects');
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectInfo.title])
 
     return (
@@ -215,6 +217,12 @@ export default function ProjectsDetails({ projectName }: { projectName: string }
                             </p>
                         </section>
                     </section>
+                    <section className="flex justify-center items-center py-10">
+                        <Button type="default" size="large" onClick={() => setOpenChat(true)}>
+                            Conversar sobre esse projeto ✨
+                        </Button>
+                    </section>
+                    <Chat projectMode={true} showChat={openChat} setShowChat={setOpenChat} projectTitle={projectInfo.title} />
                 </main>
             </div>
         </>
