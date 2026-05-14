@@ -95,7 +95,7 @@ export default function Home() {
           </section>
 
           <section>
-            <Chat />
+            <Chat projectMode={false} />
           </section>
 
         </main>
