@@ -1,13 +1,52 @@
 import { NextResponse } from 'next/server';
 import { SYSTEM_PROMPT } from '../../prompt/prompt';
-import { LOVEVERSE_PROMPT, PORTFOLIO_PROMPT, MUNDOCRIPTO_PROMPT, PRODFIND_PROMPT } from '../../prompt/project/projectPrompts';
+import {
+  LOVEVERSE_PROMPT,
+  PORTFOLIO_PROMPT,
+  MUNDOCRIPTO_PROMPT,
+  PRODFIND_PROMPT
+} from '../../prompt/project/projectPrompts';
 
 type OpenRouterMessage = {
   role: 'system' | 'user' | 'assistant'
   content: string
 }
 
+async function callOpenRouter(
+  model: string,
+  messages: OpenRouterMessage[]
+) {
+
+  return fetch(
+    'https://openrouter.ai/api/v1/chat/completions',
+    {
+      method: 'POST',
+
+      headers: {
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+
+        'HTTP-Referer': 'https://portfolio-lukas.vercel.app/',
+        'X-Title': 'Portfolio Lukas'
+      },
+
+      body: JSON.stringify({
+        model,
+
+        messages,
+
+        temperature: 0.7,
+
+        max_tokens: 1000,
+
+        top_p: 0.9
+      })
+    }
+  )
+}
+
 export async function POST(req: Request) {
+
   let prompt;
 
   try {
@@ -15,18 +54,22 @@ export async function POST(req: Request) {
     const { history = [], projectTitle } = await req.json()
 
     switch (projectTitle) {
-      case 'loveverse':
+      case 'loveVerse':
         prompt = LOVEVERSE_PROMPT;
         break;
+
       case 'portfolio':
         prompt = PORTFOLIO_PROMPT;
         break;
+
       case 'mundocripto':
         prompt = MUNDOCRIPTO_PROMPT;
         break;
+
       case 'prodfind':
         prompt = PRODFIND_PROMPT;
         break;
+
       default:
         prompt = SYSTEM_PROMPT;
         break;
@@ -43,45 +86,32 @@ export async function POST(req: Request) {
       ...limitedHistory
     ]
 
-    const response = await fetch(
-      'https://openrouter.ai/api/v1/chat/completions',
-      {
-        method: 'POST',
-
-        headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-
-          'HTTP-Referer': 'https://portfolio-lukas.vercel.app/',
-          'X-Title': 'Portfolio Lukas'
-        },
-
-        body: JSON.stringify({
-
-          model: 'openrouter/auto',
-
-          messages,
-
-          temperature: 0.7,
-
-          max_tokens: 1000,
-
-          top_p: 0.9
-        })
-      }
+    // MODELO PRINCIPAL
+    let response = await callOpenRouter(
+      'deepseek/deepseek-v4-flash:free',
+      messages
     )
+
+    console.log(response)
+
+    // FALLBACK
+    if (!response.ok) {
+
+      console.log('DeepSeek falhou, usando fallback...')
+
+      response = await callOpenRouter(
+        'openrouter/auto',
+        messages
+      )
+    }
 
     if (!response.ok) {
 
       const error = await response.text()
 
       return NextResponse.json(
-        {
-          error
-        },
-        {
-          status: response.status
-        }
+        { error },
+        { status: response.status }
       )
     }
 
