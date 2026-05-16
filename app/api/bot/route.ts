@@ -118,7 +118,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       response:
         data?.choices?.[0]?.message?.content ||
-        'Sem resposta da IA.'
+        'Não consegui obter uma resposta da IA, parece que tem um probleminha interno que o Lukas deixou passar! 😂 Tente novamente mais tarde, por favor...'
     })
 
   } catch (error) {
