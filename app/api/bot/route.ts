@@ -92,8 +92,6 @@ export async function POST(req: Request) {
       messages
     )
 
-    console.log(response)
-
     // FALLBACK
     if (!response.ok) {
 
