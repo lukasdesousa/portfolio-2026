@@ -46,7 +46,7 @@ export default function Home() {
             <div className="absolute bottom-10 right-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl"></div>
 
             {/* TEXT CONTENT */}
-            <section className="relative z-10 flex flex-col text-left gap-5 max-w-lg">
+            <section className="relative z-10 flex flex-col text-left gap-5 max-w-lg mt-15">
 
               <h1
                 className="text-5xl lg:text-7xl font-bold leading-tight"
