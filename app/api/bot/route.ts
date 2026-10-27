@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     // FALLBACK
     if (!response.ok) {
 
-      console.log('DeepSeek falhou, usando fallback...')
+      console.log('DeepSeek falhou, usando fallback...', response)
 
       response = await callOpenRouter(
         'openrouter/auto',

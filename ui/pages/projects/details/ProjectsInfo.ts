@@ -35,7 +35,7 @@ export const projectsInfo = [
         srcs: ["/images/prodfind-screenshot.png", "/images/prodfind-screenshot2.png", "/images/prodfind-screenshot3.png"],
         date: "2025",
         cards: ["O objetivo do Prodfind é fornecer a funcionalidade de compra, venda e troca através de um mapa interativo e com pessoas próximas (mesma cidade, vizinhos) e atualizado em tempo real.", "O maior desafio dentro do Prodfind foi criar um back-end que se comunica com o PostGRE utilizando a extensão PostGIS para localização geográfica. Tendo que lidar com informações como: latitude, longitude, raio de kilômetros, pesquisa de produtos dentro de um raio e dentre outras.", "O Prodfind me proporcionou uma excelente oportunidade para aprender e aplicar conceitos de desenvolvimento de software em um ambiente real, trabalhando com tecnologias como Next.js, TypeScript, Node.js e PostgreSQL. Também utilizando serviços como Cloudinary para armazenamento de imagens e Neon Tech para o banco de dados SQL."],
-        link: "https://prodfind-frontend.vercel.app/",
+        link: "https://prodfind.s-lukas-dev.workers.dev/",
         github: "https://github.com/lukasdesousa/prodfind-front"
     },
 ];
